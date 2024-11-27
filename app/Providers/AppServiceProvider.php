@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->bootResponseMacros();
     }
 
-    public function bootResponseMacros()
+    public function bootResponseMacros(): void
     {
         Response::macro('api', function ($response, $status = 200) {
 
@@ -41,6 +42,14 @@ class AppServiceProvider extends ServiceProvider
             if (is_string($response)) $response = ['message' => $response];
 
             return response(array_merge($format, $response), $status);
+        });
+    }
+
+    public function bootMigrationMacros(): void
+    {
+        Blueprint::macro('authors', function () {
+            $this->foreignId('created_by')->nullable()->constrained('users');
+            $this->foreignId('updated_by')->nullable()->constrained('users');
         });
     }
 }

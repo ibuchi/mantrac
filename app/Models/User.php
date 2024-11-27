@@ -18,6 +18,7 @@ class User extends Authenticatable
         Notifiable,
         HasApiTokens;
 
+    const TYPES = ['super admin', 'admin', 'staff'];
     /**
      * The attributes that are mass assignable.
      *
