@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\OrganisationController;
 use App\Http\Controllers\Api\OrganisationStructureController;
+use App\Http\Controllers\Api\OrganisationUserController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -23,4 +25,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('structures',               StructureController::class)->only(['store']);
     Route::apiResource('organisations.structures', OrganisationStructureController::class)->only(['store']);
     Route::apiResource('users',                    UserController::class)->only(['store']);
+    Route::apiResource('roles',                    RoleController::class);
+    Route::apiResource('organisation.users',       OrganisationUserController::class)->only('store');
 });

@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->bootResponseMacros();
+        $this->bootMigrationMacros();
     }
 
     public function bootResponseMacros(): void

@@ -7,14 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class Welcome extends Notification implements ShouldQueue
+class OrganisationWelcome extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public string $password)
+    public function __construct(public $organisation)
     {
         //
     }
@@ -35,13 +35,13 @@ class Welcome extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Welcome to PMS, {$notifiable->name}!")
-            ->greeting("Hello {$notifiable->name}!")
-            ->line("Welcome to PMS!")
-            ->line("Your profile on PMS has been created.")
-            ->line("Simply click on the button below to login using this password **{$this->password}**.")
-            ->line("**Ensure you change your password afterward!**")
-            ->action('Login', route('login'))
+            ->subject('Welcome to ' . $this->organisation)
+            ->greeting('Hello ' . $notifiable->name . '!')
+            ->line('You have been added to ' . $this->organisation . '.')
+            ->line("We're excited to have you on board. Here are some next steps to get started:")
+            ->action('Login Now', url('/login'))
+            ->line('If you have any questions, feel free to reach out to us.')
+            ->line('Welcome aboard!')
             ->salutation('Best regards,')
             ->salutation(config('app.name') . ' Team');
     }
