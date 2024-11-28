@@ -23,7 +23,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => 'requiredstring|min:3|max:255',
+            'name'            => 'required|string|min:3|max:255',
             'email'           => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'phone'           => 'nullable|digits_between:10,15',
             'gender'          => 'nullable|in:male,female',

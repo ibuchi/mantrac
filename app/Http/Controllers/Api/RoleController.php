@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
@@ -14,7 +13,7 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): Response
     {
         return Response::api([
             'message' => 'All roles!',
@@ -25,7 +24,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleRequest $request): JsonResponse
+    public function store(RoleRequest $request): Response
     {
         $validated = $request->validated();
 
@@ -37,14 +36,14 @@ class RoleController extends Controller
 
         return Response::api([
             'message' => 'Role added!',
-            'data'    => $role
+            'data'    => $role->loadMissing('permissions')
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Role $role): JsonResponse
+    public function show(Role $role): Response
     {
         return Response::api([
             'message' => 'Role!',
@@ -55,7 +54,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleRequest $request, Role $role): JsonResponse
+    public function update(RoleRequest $request, Role $role): Response
     {
         return Response::api([
             'message' => 'Role updated!',
@@ -68,7 +67,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role): JsonResponse
+    public function destroy(Role $role): Response
     {
         tap($role->syncPermissions([]))->delete();
 

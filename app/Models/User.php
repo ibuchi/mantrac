@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Resources\UserResource;
+use App\Observers\HasObserver;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,8 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory,
         Notifiable,
-        HasApiTokens;
+        HasApiTokens,
+        HasObserver;
 
     const TYPES = ['super admin', 'admin', 'staff'];
     /**
@@ -29,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type'
     ];
 
     /**
@@ -68,6 +71,16 @@ class User extends Authenticatable
     public function loginDetails(): UserResource
     {
         return new UserResource($this->append('token'));
+    }
+
+    public function isAdmin(): bool
+    {
+        return true; //TODO: Refactor later
+    }
+
+    public function firstPassword(): string
+    {
+        return str($this->name)->substr(-4)->prepend('2024')->value();
     }
 
     public function organisation(): BelongsTo
