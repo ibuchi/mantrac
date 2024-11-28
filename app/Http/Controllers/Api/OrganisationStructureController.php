@@ -22,11 +22,10 @@ class OrganisationStructureController extends Controller
             'structures.*.structure_id' => 'required|exists:structures,id',
         ]);
 
-        collect($validated)->each(function ($structure) use ($organisation) {
+        collect($validated['structures'])->each(function ($structure) use ($organisation) {
             $fileContent = $structure['file'];
-            $fileExtension = $fileContent->getClientOriginalExtension();
             $fileName = $fileContent->getClientOriginalName();
-            $filePath = "public/{$fileName}.{$fileExtension}";
+            $filePath = "public/{$fileName}";
 
             Storage::put($filePath, $fileContent, 'public');
 
