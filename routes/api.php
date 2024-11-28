@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\OrganisationController;
+use App\Http\Controllers\Api\OrganisationStructureController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\StructureController;
@@ -17,6 +18,7 @@ Route::prefix('/auth')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('organisations', OrganisationController::class);
-    Route::apiResource('structures',    StructureController::class)->only(['store']);
+    Route::apiResource('organisations',            OrganisationController::class);
+    Route::apiResource('structures',               StructureController::class)->only(['store']);
+    Route::apiResource('organisations.structures', OrganisationStructureController::class)->only(['store']);
 });

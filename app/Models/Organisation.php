@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\ObservesWrites;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Organisation extends Model
 {
@@ -24,4 +25,14 @@ class Organisation extends Model
         'vision_statement',
         'mission_statement'
     ];
+
+    /**
+     *
+     * @return BelongsToMany
+     *
+     */
+    public function structures(): BelongsToMany
+    {
+        return $this->belongsToMany(Structure::class);
+    }
 }
