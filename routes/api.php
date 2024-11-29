@@ -28,5 +28,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('users',                    UserController::class)->only(['store']);
     Route::apiResource('roles',                    RoleController::class);
     Route::apiResource('permissions',              PermissionController::class)->only(['index', 'store']);
-    Route::apiResource('organisation.users',       OrganisationUserController::class)->only('store');
+    Route::apiResource('organisations.users',       OrganisationUserController::class)->only('store');
 });
