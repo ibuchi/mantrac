@@ -33,6 +33,9 @@ class Organisation extends Model
      */
     public function structures(): BelongsToMany
     {
-        return $this->belongsToMany(Structure::class);
+        return $this->belongsToMany(Structure::class)->withPivot([
+            'line_manager',
+            'structure_path'
+        ])->withTimestamps();
     }
 }

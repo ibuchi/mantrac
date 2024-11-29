@@ -63,5 +63,6 @@ class OrganisationStructureController extends Controller
                 $organisation->structures()->updateExistingPivot($structure->id, $validated)
             )
         ]);
+        
     }
 }
