@@ -52,17 +52,22 @@ class OrganisationStructureController extends Controller
     public function update(Request $request, Organisation $organisation, Structure $structure)
     {
         $validated = $request->validate([
-            'structure_path' => 'sometimes|file|mimes:png,jpg',
+            'structure' => 'sometimes|file|mimes:png,jpg',
             'line_manager' => 'sometimes|exists:users,id'
         ]);
+
+        if ($request->hasFile('structure')) {
+            unset($validated['structure']);
+
+            $validated['structure_path'] = $request->file('structure')->storePublicly('public');
+        }
 
         return Response::api([
             'message' => 'Organisation structure updated!',
             'data'    => tap(
                 $organisation,
-                $organisation->structures()->updateExistingPivot($structure->id, $validated)
+                fn($organisation) => $organisation->structures()->updateExistingPivot($structure->id, $validated)
             )
         ]);
-        
     }
 }
